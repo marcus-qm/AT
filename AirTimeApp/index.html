@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Welcome to AirTime!</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!-- Skeleton CSS -->
+    <link rel="stylesheet" href="css/skeleton.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <!-- <link rel="icon" type="image/png" href="../../dist/images/favicon.png"> -->
+
+</head>
+
+<body>
+    <!-- LOADER BEGIN -->
+    <div id="loader">
+        <div class='loader-ring'>
+            <div class='loader-ring-light'></div>
+            <div class='loader-ring-track'></div>
+        </div>
+    </div>
+    <!-- LOADER END -->
+
+    <!-- LOGIN/SIGNUP BEGIN -->
+    <div id="login_div" class="main-div">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+                    aria-selected="true"><i class="fa fa-sign-in" aria-hidden="true"></i> Login!</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
+                    aria-selected="false"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign up!</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <h3>AirTime Login</h3>
+                <input type="email" placeholder="Email..." id="email" />
+                <input type="password" placeholder="Password..." id="password" />
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+
+                <button onclick="toggleSignIn()">Login to AirTime</button>
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <h3>AirTime Sign Up</h3>
+                <input type="email" placeholder="Email..." id="email_signup" />
+                <input type="password" placeholder="Password..." id="password_signup" />
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+
+                <button onclick="handleSignUp()">Sign up for AirTime</button>
+            </div>
+        </div>
+    </div>
+    <!-- LOGIN/SIGNUP END -->
+
+    <!-- Nav Section Begin -->
+    <div id="navigation" style="display: none" class="nav-tabs">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                    <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Buy AirTime</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> Help?</a>
+            </li>
+        </ul>
+        <div class="nav-actions nav-item">
+            <button type="button" onclick="toggleSignIn()" class="logout-btn btn btn-default navbar-btn">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Log out</button>
+        </div>
+    </div>
+    <!-- Nav Section End -->
+
+
+    <!-- MAIN BODY BEGIN -->
+    <div style="display: none" class="tab-content" id="myTabContent">
+
+        <!-- HOME TAB BEGIN -->
+        <div class="content-section tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <!-- NOTIFICATIONS BEGIN -->
+            <div id="notifications_wrapper">
+                <div id="email_verification_notification" style="display: none" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <span class="username_display"></span>, please check your email and verify your account.
+                    <button type="button" onclick="sendEmailVerification()" style="    position: absolute;
+                    margin-bottom: 0;
+                    right: 50px;
+                    top: -1px;
+                    padding: 16px;" class="btn btn-warning">Resend Verification Email</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div id="profile_update_notification" style="display: none" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <span class="username_display"></span>, please update your profile.
+                    <button type="button" data-toggle="modal" data-target="#editUserProfile" style="    position: absolute;
+                            margin-bottom: 0;
+                            right: 50px;
+                            top: -1px;
+                            padding: 16px;" class="btn btn-warning">Edit Your Profile</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <!-- NOTIFICATIONS END -->
+
+            <!-- HIGHLIGHT SECTION BEGIN -->
+            <div class="section hero hero2">
+                <div class="container">
+
+                    <div class="highlight_header">
+                        <h2 class="hero-heading">Hey
+                            <span class="username_display"></span>!
+                            <i data-toggle="modal" data-target="#editUserProfile" class="edit_pencil fa fa-cogs" aria-hidden="true"></i>
+                        </h2>
+                        <div id="user-meta">
+                            <h6>Last Login:
+                                <span id="last-login" class="sub-info"></span>
+                            </h6>
+                            <h6>Member since:
+                                <span id="signup-since" class="sub-info"></span>
+                            </h6>
+                        </div>
+                    </div>
+
+                    <!-- CREDIT HISTORY SECTION BEGIN -->
+                    <div id="credit-history-table">
+                        <pre id="user-history">
+
+                        </pre>
+                    </div>
+                    <!-- CREDIT HISTORY SECTION END -->
+
+                </div>
+            </div>
+            <!-- HIGHLIGHT SECTION END -->
+
+            <!-- EDIT USER ACCOUNT MODAL BEGIN -->
+            <div class="modal fade" id="editUserProfile" tabindex="-1" role="dialog" aria-labelledby="editUserProfile" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                <i class="fa fa-user" aria-hidden="true"></i> Account Setting</h5>
+                            <button type="button" id="edit-modal-profile" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="tab-content" id="updateUser-tabContent">
+                                <div class="tab-pane fade show active" id="pills-userName" role="tabpanel" aria-labelledby="pills-userName">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="updateUserDisplayName">Username: </label>
+                                            <input type="updateUserDisplayName" class="form-control" id="updateUserDisplayName" aria-describedby="emailHelp" placeholder="Enter Username">
+                                            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                        </div>
+                                        <!-- <div class="form-group">
+                                                          <label for="exampleInputPassword1">Password</label>
+                                                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                                        </div>
+                                                        <div class="form-check">
+                                                          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                                        </div> -->
+                                        <button onclick="setUserNameToFB()" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-custom1" role="tabpanel" aria-labelledby="pills-custom1">...</div>
+                                    <div class="tab-pane fade" id="pills-custom2" role="tabpanel" aria-labelledby="pills-custom2">...</div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <ul class="nav nav-pills mb-3" id="updateUser-tab" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="pills-userName" data-toggle="pill" href="#pills-userName" role="tab" aria-controls="pills-userName"
+                                            aria-selected="true">Display Name</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-custom1" data-toggle="pill" href="#pills-custom1" role="tab" aria-controls="pills-custom1"
+                                            aria-selected="false">2</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-custom2" data-toggle="pill" href="#pills-custom2" role="tab" aria-controls="pills-custom2"
+                                            aria-selected="false">3</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- EDIT USER ACCOUNT MODAL END -->
+
+            </div>
+
+        </div>
+        <!-- HOME TAB END -->
+
+        <!-- BUY AIRTIME TAB BEGIN -->
+        <div class="content-section tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="section2">
+                <div class="container">
+                    <ul class="nav nav-pills mb-3" id="pills-tab2" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pills-network-provider-tab" data-toggle="pill" href="#pills-network-provider" role="tab" aria-controls="pills-network-provider"
+                                aria-selected="true">Select Network Provider</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" id="pills-credit-amount-tab" data-toggle="pill" href="#pills-credit-amount" role="tab" aria-controls="pills-credit-amount"
+                                aria-selected="false">Select Credit Amount</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" id="pills-process-payment-tab" data-toggle="pill" href="#pills-process-payment" role="tab" aria-controls="pills-process-payment"
+                                aria-selected="false">Process Payment</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent2">
+                        <div class="tab-pane fade show active main-div" id="pills-network-provider" role="tabpanel" aria-labelledby="pills-network-provider">
+                            <div class="card-deck">
+                                <div id="mtn_vendor" class="card card-modifications">
+                                    <img class="card-img-top mobile-vendor-image" src="./images/mtn_vendor.png" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">MTN</h5>
+                                    </div>
+                                </div>
+                                <div id="vodafone_vendor" class="card card-modifications">
+                                    <img class="card-img-top mobile-vendor-image" src="./images/vodafone_vendor.png" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Vodafone</h5>
+                                    </div>
+                                </div>
+                                <div id="airtel_vendor" class="card card-modifications">
+                                    <img class="card-img-top" src="./images/airtel_vendor.png" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Airtel</h5>
+                                    </div>
+                                </div>
+                                <div id="glo_vendor" class="card card-modifications">
+                                        <img class="card-img-top mobile-vendor-image" src="./images/vodafone_vendor.png" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Glo</h5>
+                                        </div>
+                                    </div>
+                                    <div id="tigo_vendor" class="card card-modifications">
+                                        <img class="card-img-top" src="./images/airtel_vendor.png" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Tigo</h5>
+                                        </div>
+                                    </div>
+                            </div>
+                            <button class="disabled" id="amount_selection_btn" disabled>Select an Amount
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="tab-pane fade main-div" id="pills-credit-amount" role="tabpanel" aria-labelledby="pills-credit-amount">
+                            <div class="card-deck card-deck-modifications">
+                                <div id="credit-amount-1" class="card card-modifications">
+                                    <div class="card-body">
+                                        <h5 class="card-title">GH&#8373; 1</h5>
+                                    </div>
+                                </div>
+                                <div id="credit-amount-5" class="card card-modifications">
+                                    <div class="card-body">
+                                        <h5 class="card-title">GH&#8373; 5</h5>
+                                    </div>
+                                </div>
+                                <div id="credit-amount-10" class="card card-modifications">
+                                    <div class="card-body">
+                                        <h5 class="card-title">GH&#8373; 10</h5>
+                                    </div>
+                                </div>   
+                                                             <div id="credit-amount-20" class="card card-modifications">
+                                    <div class="card-body">
+                                        <h5 class="card-title">GH&#8373; 20</h5>
+                                    </div>
+                                </div>
+                                <div id="credit-amount-50" class="card card-modifications">
+                                    <div class="card-body">
+                                        <h5 class="card-title">GH&#8373; 50</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <button class="disabled" id="payment_overview_btn" disabled>Proceed to Payment
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-process-payment" role="tabpanel" aria-labelledby="pills-process-payment">
+
+                            <h3>
+                                <span class="username_display"></span>, here is your order.</h3>
+
+                            <ul class="list-group list-group-flush">
+                                    <!-- <li id="invoice_id_display" class="list-group-item">Invoice ID: </li> -->
+                                <li id="summary_vendor" class="list-group-item">Cras justo odio</li>
+                                <li id="summary_amount" class="list-group-item">Dapibus ac facilisis in</li>
+                            </ul>
+
+
+                            <form id="ipayghform">
+                                <div id="purchase-form-control" class="form-group main-div">
+                                    <input type=hidden name=merchant_key value="tk_603a62a4-81fc-11e8-85be-f23c9170642f" />
+                                    <input type=hidden name=success_url value="http://127.0.0.1:8080" />
+                                    <input type=hidden name=cancelled_url value="http://127.0.0.1:8080" />
+                                    <input type="hidden" name="ipn_url" value="https://airtimeteamgh-f5427.firebaseapp.com/gateway">
+                                    <input type=hidden name=deferred_url value="" />
+                                    <input class="form-control" id="invoice_id" readonly type=hidden name=invoice_id />
+                                    <input readonly id="total_value" value="15" class="form-control" name=total type=hidden size=10 />
+                                    <button class="btn btn-primary" onclick="finalSubmitAction(vendor_selection, amount_selection)" id="airtime-buy">Purchase AirTime!</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- BUY AIRTIME TAB END -->
+
+        <!-- HELP TAB BEGIN -->
+        <div class="content-section tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Collapsible Group Item #1
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
+                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                            moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                            et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                            synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Collapsible Group Item #2
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
+                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                            moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                            et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                            synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Collapsible Group Item #3
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
+                            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                            moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                            et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                            synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+
+                    <div class="section get-help">
+                        <div class="container">
+                            <h3 class="section-heading">Do you have any questions or concerns using AirTime? </h3>
+                            <p class="section-description">Please reach out to us! Our team would love to answer anything and provide all the help you need!
+                                <br> Email Us at
+                                <a class="link" mailto="some@email.com">some@email.com</a>!</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- HELP TAB END -->
+
+        <!-- BANNER AD SECTION BEGIN -->
+        <div id="ad-placeholder" class="ad-section">
+        </div>
+        <!-- BANNER AD SECTION END -->
+
+    </div>
+    <!-- End Document -->
+
+    <!-- Bootstrap Core JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
+    <!-- FB Setup -->
+    <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCtdz_Km9bPVUTCZlHG2R_Fytxw7871Fvs",
+            authDomain: "airtimeteamgh-f5427.firebaseapp.com",
+            databaseURL: "https://airtimeteamgh-f5427.firebaseio.com",
+            projectId: "airtimeteamgh-f5427",
+            storageBucket: "airtimeteamgh-f5427.appspot.com",
+            messagingSenderId: "807384400275"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <!-- JSON to TABLE -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.5.3/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.5.3/js/tabulator.min.js"></script> -->
+
+    <!-- DB JS -->
+    <script src="/js/db.js"></script>
+
+    <!-- Custom JS  -->
+    <!-- <script src="/js/dashboard.js"></script> -->
+
+</body>
+
+</html>

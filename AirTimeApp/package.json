@@ -1,0 +1,16 @@
+{
+  "name": "airtimeapp",
+  "version": "1.0.0",
+  "description": "AirTime Web App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marcus Manuh",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "firebase-functions": "^2.0.5",
+    "nodemon": "^1.18.4"
+  }
+}
